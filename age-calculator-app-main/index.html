@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Frontend Mentor | Age calculator app</title>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <div id="ageCalculator">
+          <div class="dateInput">
+            <div>
+              <form action="submit" method="get">
+                <label for="inputDay" id="labelDay">Day</label>
+                <input
+                  type="text"
+                  minlength="1"
+                  maxlength="2"
+                  min="1"
+                  placeholder="DD"
+                  pattern="[0-9]+"
+                  id="inputDay"
+                  required
+                />
+              </form>
+              <small class="error"></small>
+            </div>
+            <div>
+              <form action="submit" method="get">
+                <label for="inputMonth" id="labelMonth">Month</label>
+                <input
+                  type="text"
+                  minlength="1"
+                  maxlength="2"
+                  min="1"
+                  max="12"
+                  placeholder="MM"
+                  pattern="[0-9]+"
+                  id="inputMonth"
+                  required
+                />
+              </form>
+              <small class="error"></small>
+            </div>
+            <div>
+              <form action="submit" method="get">
+                <label for="inputYear" id="labelYear">Year</label>
+                <input
+                  type="text"
+                  minlength="1"
+                  maxlength="4"
+                  placeholder="YYYY"
+                  pattern="[0-9]+"
+                  id="inputYear"
+                  required
+                />
+              </form>
+              <small class="error"></small>
+            </div>
+          </div>
+          <div class="btnContainer">
+            <hr />
+            <button type="submit" class="ageCalculatorBtn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                viewBox="0 0 46 44"
+              >
+                <g fill="none" stroke="#FFF" stroke-width="2">
+                  <path
+                    d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div id="ageResults">
+          <p><span id="numYears">--</span> years</p>
+          <p><span id="numMonths">--</span> months</p>
+          <p><span id="numDays">--</span> days</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="attribution">
+        Challenge by
+        <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+          >Frontend Mentor</a
+        >. Coded by <a href="#">Trisha R</a>.
+      </div>
+    </footer>
+    <script src="script.js" charset="UTF-8"></script>
+  </body>
+</html>
