@@ -1,107 +1,146 @@
-//INPUT IDs
-let birthDay = document.getElementById("inputDay");
-let birthMonth = document.getElementById("inputMonth");
-let birthYear = document.getElementById("inputYear");
+const inputs = document.querySelectorAll("input");
+const inputDay = document.getElementById("inputDay");
+const inputMonth = document.getElementById("inputMonth");
+const inputYear = document.getElementById("inputYear");
 
-let allInputValue = document.querySelectorAll("input").value;
-let allInput = document.querySelectorAll("input");
+const outputDays = document.getElementById("numDays");
+const outputMonths = document.getElementById("numMonths");
+const outputYears = document.getElementById("numYears");
 
-let inputDay = document.getElementById("inputDay").value;
-let inputMonth = document.getElementById("inputMonth").value;
-let inputYear = document.getElementById("inputYear").value;
+const btn = document.querySelector("button");
 
-//OUTPUT IDs
-let outputDays = document.getElementById("numDays");
-let outputMonths = document.getElementById("numMonths");
-let outputYears = document.getElementById("numYears");
+const error = document.getElementsByClassName("error");
 
-//DATE
-let fullDate = new Date();
+const inputValidation = document.querySelectorAll("input");
+btn.addEventListener("click", () => {
+  validate();
+  calculateAge();
+});
 
-let currentDay = fullDate.getDate();
-let currentMonth = 1 + fullDate.getMonth();
-let currentYear = fullDate.getFullYear();
+inputDay.addEventListener("input", () => {
+  const inputDayValue = inputs[0].value;
 
-//BUTTON AND LABELS
-document.querySelector("button").addEventListener("click", handleClick);
-
-let labelDay = document.getElementById("labelDay");
-let labelMonth = document.getElementById("labelMonth");
-let labelYear = document.getElementById("labelYear");
-
-function handleClick() {
-  //If there is no specified day, throw an error.
-  if (!inputDay) {
-    birthDay.style.borderColor = "hsl(0, 100%, 67%)";
-    labelDay.style.color = "hsl(0, 100%, 67%)";
-    document.getElementsByClassName("error")[0].innerHTML =
-      "This field is required";
+  if (error[0].innerHTML === "Must be a valid date") {
+    inputs[0].classList.remove("border-red");
+    inputs[1].classList.remove("border-red");
+    inputs[2].classList.remove("border-red");
   }
-  //If the specified month is greater than 31, throw an error.
-  else if (inputDay > 31 || inputDay < 1) {
-    birthDay.style.borderColor = "hsl(0, 100%, 67%)";
-    labelDay.style.color = "hsl(0, 100%, 67%)";
-    document.getElementsByClassName("error")[0].innerHTML =
-      "Must be a valid day";
+
+  if (inputDayValue > 31) {
+    error[0].classList.add("error");
+    error[0].innerHTML = "Must be a valid day";
+    inputs[0].classList.add("border-red");
   } else {
-    birthDay.style.borderColor = "hsl(0, 0%, 86%)";
-    labelDay.style.color = "hsl(0, 1%, 44%)";
-    document.getElementsByClassName("error")[0].innerHTML = "";
+    error[0].innerHTML = "";
+    inputs[0].classList.remove("border-red");
+  }
+});
 
-    calculateAge();
+inputMonth.addEventListener("input", () => {
+  const inputMonthValue = inputs[1].value;
+
+  if (error[0].innerHTML === "Must be a valid date") {
+    inputs[0].classList.remove("border-red");
+    inputs[1].classList.remove("border-red");
+    inputs[2].classList.remove("border-red");
   }
 
-  //If there is no specified month, throw an error.
-  if (!inputMonth) {
-    birthMonth.style.borderColor = "hsl(0, 100%, 67%)";
-    labelMonth.style.color = "hsl(0, 100%, 67%)";
-    document.getElementsByClassName("error")[1].innerHTML =
-      "This field is required";
-  }
-  //If the specified month is greater than 12, throw an error.
-  else if (inputMonth > 12 || inputMonth < 1) {
-    birthMonth.style.borderColor = "hsl(0, 100%, 67%)";
-    labelMonth.style.color = "hsl(0, 100%, 67%)";
-    document.getElementsByClassName("error")[1].innerHTML =
-      "Must be a valid month";
+  if (inputMonthValue > 12) {
+    error[1].classList.add("error");
+    error[1].innerHTML = "Must be a valid month";
+    inputs[1].classList.add("border-red");
   } else {
-    birthMonth.style.borderColor = "hsl(0, 0%, 86%)";
-    labelMonth.style.color = "hsl(0, 1%, 44%)";
-    document.getElementsByClassName("error")[1].innerHTML = "";
+    error[1].innerHTML = "";
+    inputs[1].classList.remove("border-red");
+  }
+});
 
-    calculateAge();
+inputYear.addEventListener("input", () => {
+  const inputYearValue = inputs[2].value;
+  const currentYear = dayjs().year();
+
+  if (error[0].innerHTML === "Must be a valid date") {
+    inputs[0].classList.remove("border-red");
+    inputs[1].classList.remove("border-red");
+    inputs[2].classList.remove("border-red");
   }
 
-  //If there is no specified year, throw an error.
-  if (!inputYear) {
-    birthYear.style.borderColor = "hsl(0, 100%, 67%)";
-    labelYear.style.color = "hsl(0, 100%, 67%)";
-    document.getElementsByClassName("error")[2].innerHTML =
-      "This field is required";
-  }
-  //If the specified year is greater than the current year, throw an error. This year is 2023, I cannot specify a year beyond that.
-  else if (inputYear > currentYear) {
-    birthYear.style.borderColor = "hsl(0, 100%, 67%)";
-    labelYear.style.color = "hsl(0, 100%, 67%)";
-    document.getElementsByClassName("error")[2].innerHTML =
-      "Must be in the past";
+  if (inputYearValue > currentYear) {
+    error[2].classList.add("error");
+    error[2].innerHTML = "Must be in the past";
+    inputs[2].classList.add("border-red");
   } else {
-    birthYear.style.borderColor = "hsl(0, 0%, 86%)";
-    labelYear.style.color = "hsl(0, 1%, 44%)";
-    document.getElementsByClassName("error")[2].innerHTML = "";
-
-    calculateAge();
+    error[2].innerHTML = "";
+    inputs[2].classList.remove("border-red");
   }
+});
+
+function calculateAge() {
+  const inputDayValue = inputs[0].value;
+  const inputMonthValue = inputs[1].value;
+  const inputYearValue = inputs[2].value;
+
+  const currentDate = dayjs();
+  const dateString = `${inputYearValue}-${inputMonthValue
+    .toString()
+    .padStart(2, "0")}-${inputDayValue.toString().padStart(2, "0")}`;
+  const inputDate = dayjs(dateString);
+
+  const currentDay = dayjs().day();
+  const currentMonth = dayjs().month();
+  const currentYear = dayjs().year();
+
+  let ageDay = 0;
+  let ageMonth = 0;
+  let ageYear = Math.abs(currentYear - inputYearValue);
+  if(error[2].innerHTML !== "Must be in the past"){
+    console.log(ageYear);
+  }
+
+  else if (validate()){
+    console.log("--");
+  }
+
 }
 
-//FOR CALCULATION
-function calculateAge(calcDays, calcMonths, calcYears) {
-  calcDays = inputDay - currentDay;
-  outputDays.innerHTML = Math.abs(calcDays);
+const validate = () => {
+  const inputDayValue = inputs[0].value;
+  const inputMonthValue = inputs[1].value;
+  const inputYearValue = inputs[2].value;
 
-  calcMonths = inputMonth - currentMonth;
-  outputMonths.innerHTML = Math.abs(calcMonths);
+  const currentDate = dayjs();
+  const dateString = `${inputYearValue}-${inputMonthValue
+    .toString()
+    .padStart(2, "0")}-${inputDayValue.toString().padStart(2, "0")}`;
+  const inputDate = dayjs(dateString);
 
-  calcYears = currentYear - inputYear;
-  outputYears.innerHTML = Math.abs(calcYears);
+  if (!inputDayValue) {
+    error[0].classList.add("error");
+    error[0].innerHTML = "This field is required";
+    inputs[0].classList.add("border-red");
+  }
+
+  if (!inputMonthValue) {
+    error[1].classList.add("error");
+    error[1].innerHTML = "This field is required";
+    inputs[1].classList.add("border-red");
+  }
+
+  if (!inputYearValue) {
+    error[2].classList.add("error");
+    error[2].innerHTML = "This field is required";
+    inputs[2].classList.add("border-red");
+  }
+
+  if (!inputDayValue || !inputMonthValue | !inputYearValue) {
+    return;
+  }
+
+  if (inputDate > currentDate) {
+    error[0].innerHTML = "Must be a valid date";
+    for (let i = 0; i < inputs.length; i++) {
+      error[i].classList.add("error");
+      inputs[i].classList.add("border-red");
+    }
+  }
 }

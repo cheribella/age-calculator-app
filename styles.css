@@ -137,12 +137,21 @@ label {
   padding: 0.5rem 1rem;
 }
 
-.error {
+small {
   color: var(--clr-light-red);
   font-style: var(--italic);
   font-size: 0.7rem;
   position: absolute;
   max-width: 20%;
+  visibility: hidden;
+}
+
+.error {
+  visibility: visible;
+}
+
+form .border-red {
+  border: 1px solid var(--clr-light-red);
 }
 
 /**BUTTON**/
