@@ -86,21 +86,40 @@ function calculateAge() {
     .padStart(2, "0")}-${inputDayValue.toString().padStart(2, "0")}`;
   const inputDate = dayjs(dateString);
 
-  const currentDay = dayjs().day();
+  const currentDay = dayjs().date();
   const currentMonth = dayjs().month();
   const currentYear = dayjs().year();
 
   let ageDay = 0;
   let ageMonth = 0;
   let ageYear = Math.abs(currentYear - inputYearValue);
-  if(error[2].innerHTML !== "Must be in the past"){
-    console.log(ageYear);
-  }
 
-  else if (validate()){
-    console.log("--");
+  if (currentDate >= inputDate) {
+    if (currentDate < dayjs(currentYear, inputMonthValue - 1, inputDayValue)) {
+      ageYear = ageYear - 1;
+      ageMonth = currentMonth + 1;
+      ageDay = currentDay;
+    } else {
+      if (currentMonth + 1 === inputMonthValue) {
+        ageMonth = 0;
+        ageDay = currentDay - inputDayValue;
+      } else {
+        ageMonth = Math.abs(currentMonth + 1 - inputMonthValue);
+        if (currentDay < inputDayValue) {
+          ageMonth = Math.abs(ageMonth - 1);
+          ageDay =
+            currentDay +
+            new Date(currentYear, currentMonth, 0).getDate() -
+            inputDayValue;
+        } else {
+          ageDay = currentDay - inputDayValue;
+        }
+      }
+    }
+    outputDays.innerHTML = ageDay;
+    outputMonths.innerHTML = ageMonth;
+    outputYears.innerHTML = ageYear;
   }
-
 }
 
 const validate = () => {
@@ -143,4 +162,4 @@ const validate = () => {
       inputs[i].classList.add("border-red");
     }
   }
-}
+};
