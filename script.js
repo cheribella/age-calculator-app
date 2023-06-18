@@ -14,7 +14,6 @@ const error = document.getElementsByClassName("error");
 const inputValidation = document.querySelectorAll("input");
 btn.addEventListener("click", () => {
   validate();
-  calculateAge();
 });
 
 inputDay.addEventListener("input", () => {
@@ -123,29 +122,9 @@ function calculateAge() {
     }
   }
 
-  const isBirthYearLeap = isLeapYear(inputYearValue);
-
-  outputDays.innerHTML = ageDay;
-  outputMonths.innerHTML = ageMonth;
   outputYears.innerHTML = ageYear;
-  isLeapYear();
-  if (inputDayValue == 29 && inputMonthValue == 2 && !isBirthYearLeap) {
-    error[0].innerHTML = "Must be a valid date";
-    error[0].classList.add("error");
-    error[1].classList.add("error");
-    error[2].classList.add("error");
-    inputs[0].classList.add("border-red");
-    inputs[1].classList.add("border-red");
-    inputs[2].classList.add("border-red");
-  } else if (inputDayValue == 29 && inputMonthValue == 2 && isBirthYearLeap) {
-    error[0].replace = "Must be a valid date", "";
-    error[0].classList.remove("error");
-    error[1].classList.remove("error");
-    error[2].classList.remove("error");
-    inputs[0].classList.remove("border-red");
-    inputs[1].classList.remove("border-red");
-    inputs[2].classList.remove("border-red");
-  }
+  outputMonths.innerHTML = ageMonth;
+  outputDays.innerHTML = ageDay;
 }
 
 const validate = () => {
@@ -187,9 +166,55 @@ const validate = () => {
       error[i].classList.add("error");
       inputs[i].classList.add("border-red");
     }
-  }
-};
 
-function isLeapYear(year) {
-  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-}
+    console.log(daysInMonth[0]);
+  }
+
+  const checkDaysInMonth = () => {
+    //An array that arranges the total number of days each month
+    const daysInMonth = [
+      31, // January
+      28, // February
+      31, // March
+      30, // April
+      31, // May
+      30, // June
+      31, // July
+      31, // August
+      30, // September
+      31, // October
+      30, // November
+      31, // December
+    ];
+
+    if (inputDayValue > daysInMonth[inputMonthValue - 1]) {
+      //inputDayValue(31) > daysInMonth[4-1] => 31 > daysInMonth[3] => 31 > 30 ????
+      error[0].classList.add("error");
+      error[0].textContent = "Must be a valid date";
+      inputs[0].classList.add("border-red");
+
+      console.log("ERROR");
+    } else {
+      error[0].textContent = "";
+      inputs[0].classList.remove("border-red");
+
+      calculateAge();
+      console.log("NO ERROR");
+    }
+
+    //Check if leap year
+    const isLeapYear = () => {
+      if (
+        (inputYearValue % 4 === 0 && inputYearValue % 100 !== 0) ||
+        inputYearValue % 400 === 0
+      ) {
+        daysInMonth[1] = 29; //If true
+      } else {
+        daysInMonth[1] = 28; //If false
+      }
+    };
+
+    return true;
+  };
+  checkDaysInMonth();
+};
