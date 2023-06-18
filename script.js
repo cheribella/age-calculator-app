@@ -76,9 +76,9 @@ inputYear.addEventListener("input", () => {
 });
 
 function calculateAge() {
-  const inputDayValue = inputs[0].value;
-  const inputMonthValue = inputs[1].value;
-  const inputYearValue = inputs[2].value;
+  const inputDayValue = parseInt(inputs[0].value);
+  const inputMonthValue = parseInt(inputs[1].value);
+  const inputYearValue = parseInt(inputs[2].value);
 
   const currentDate = dayjs();
   const dateString = `${inputYearValue}-${inputMonthValue
@@ -101,7 +101,6 @@ function calculateAge() {
       ageDay = currentDay;
     } else {
       if (currentMonth + 1 === inputMonthValue) {
-        ageMonth = 0;
         ageDay = currentDay - inputDayValue;
       } else {
         ageMonth = Math.abs(currentMonth + 1 - inputMonthValue);
@@ -115,10 +114,37 @@ function calculateAge() {
           ageDay = currentDay - inputDayValue;
         }
       }
+      if (
+        currentMonth < inputMonthValue ||
+        (currentMonth === inputMonthValue && currentDay === inputDayValue)
+      ) {
+        ageYear--;
+      }
     }
-    outputDays.innerHTML = ageDay;
-    outputMonths.innerHTML = ageMonth;
-    outputYears.innerHTML = ageYear;
+  }
+
+  const isBirthYearLeap = isLeapYear(inputYearValue);
+
+  outputDays.innerHTML = ageDay;
+  outputMonths.innerHTML = ageMonth;
+  outputYears.innerHTML = ageYear;
+  isLeapYear();
+  if (inputDayValue == 29 && inputMonthValue == 2 && !isBirthYearLeap) {
+    error[0].innerHTML = "Must be a valid date";
+    error[0].classList.add("error");
+    error[1].classList.add("error");
+    error[2].classList.add("error");
+    inputs[0].classList.add("border-red");
+    inputs[1].classList.add("border-red");
+    inputs[2].classList.add("border-red");
+  } else if (inputDayValue == 29 && inputMonthValue == 2 && isBirthYearLeap) {
+    error[0].replace = "Must be a valid date", "";
+    error[0].classList.remove("error");
+    error[1].classList.remove("error");
+    error[2].classList.remove("error");
+    inputs[0].classList.remove("border-red");
+    inputs[1].classList.remove("border-red");
+    inputs[2].classList.remove("border-red");
   }
 }
 
@@ -163,3 +189,7 @@ const validate = () => {
     }
   }
 };
+
+function isLeapYear(year) {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+}

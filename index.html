@@ -102,14 +102,6 @@
       </div>
     </footer>
     <script src="script.js" charset="UTF-8"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
-    <script>
-      dayjs.extend(window.dayjs_plugin_utc);
-    </script>
-    <script>
-       dayjs.extend(window.dayjs_plugin_isLeapYear); //Uncaught TypeError: t is undefined
-    </script>
-    <script type="module" src="node_modules/dayjs/dayjs.min.js"></script>
+    <script type="module" src="node_modules/dayjs/dayjs.min.js"> import dayjs from "dayjs"</script>
   </body>
 </html>
